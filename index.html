@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOUSE TEST</title>
+    
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <!--Creating the main container where all of the rows will be nested inside. I am not using and new containers inside of columns -->
+    <div class='container-fluid'> 
+
+        <!-- creatinga new row, making it the first row -->
+        <div class='row'>
+
+            <!-- creating a column on the first row taking up 2 columns and it will start to collapse on small view port -->
+            <div class='col-sm-2'> </div>
+
+            <!-- still first row, takes up 8 of 12 columns, and is the top text with black background -->
+            <div class='col-sm-8 center-grid-contents top-banner-text' style='background-color: black' >
+                 MOUSE TEST
+            </div>
+            <!-- thelast two columns on the right and as this div is empty, it will create white space  -->
+            <div class='col-sm-2'></div>
+
+        </div>
+    <!---------------- FIRST ROW BELOW BANNER ------------------->
+        <!-- creating a new rowm and creating class called row-height which is targetted by css to make it 35% of the screen heigh.
+        the reas it is 35% is because there are three of these rows and each row takes up 35%...  -->
+        <div class='row row-height'>
+            <!-- where first button appears -->
+            <div class='col-sm-2 center-grid-contents'>
+
+                <img src='' id='top-left-circle' onclick="turnCircleTopLeftWhite()">
+            </div>
+            
+            <!-- empty middle -->
+            <div class='col-sm-8'></div>
+
+            <!-- where second button appears -->
+            <div class='col-sm-2 center-grid-contents'>
+                <img src='' id='top-right-circle' onclick='turnCircleTopRightWhite()'>
+            </div>
+        </div>
+ 
+
+    <!---------------- SECOND ROW WITH START PROMPT------------------->
+
+        <div class='row row-height' >
+            <!-- where first button appears -->
+            <div class='col-sm-2'></div>
+            
+            <!-- puts image in the middle-->
+            <div class='col-sm-8 center-the-image-button'>
+                <img src='./img/start-button-2.png' id='start-middle-button' onclick="clickStartButton()" class='img-fluid animated fadeIn start-button'>
+            </div>
+
+            <!-- emptuy space on the right -->
+            <div class='col-sm-2'></div>
+        </div>
+
+        <!---------------- THIRD ROW BELOW BANNER ------------------->
+ 
+        <div class='row row-height'>
+            <!-- where first button appears -->
+            <div class='col-sm-2 center-grid-contents'>
+                <img src='' id='bottom-left-circle' onclick="turnBottomLeftWhite()">
+            </div>
+            
+            <!-- empty middle -->
+            <div class='col-sm-8'></div>
+
+            <!-- where second button appears -->
+            <div class='col-sm-2 center-grid-contents'>
+                <img src='' id='bottom-right-circle' onclick='turnBottomRightWhite()'>
+            </div>
+        </div>
+    </div>
+        
+
+
+    <!-- Javascript -->
+    <script>
+        // getting access to HTML for each of the circles and storing as a variable.
+        let middleStartButton = document.getElementById('start-middle-button'); 
+        let topLeftCircle = document.getElementById('top-left-circle');
+        let topRightCircle = document.getElementById('top-right-circle');
+        let bottomLeftCircle = document.getElementById('bottom-left-circle');
+        let bottomRightCircle = document.getElementById('bottom-right-circle');
+
+        // string pathway to black and white dot path.
+        let setBlackDot = './img/black-dot.png';
+        let setWhiteDot = './img/white-dot.png';
+
+        // counter is used to not make the top left button turn into a black circle again once the turnBottomRightWhite() 
+        // function has been executed. This is because If they are to click the middle button again, when test-completed.png 
+        // image appears, then the test is restarted because clickStartButton makes the top left circle turn right.
+        let clickCounter = 4;
+
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+        var MOBILE_SAFARI = ((navigator.userAgent.toString().toLowerCase().indexOf("iphone")!=-1) || (navigator.userAgent.toString().toLowerCase().indexOf("ipod")!=-1) || (navigator.userAgent.toString().toLowerCase().indexOf("ipad")!=-1)) ? true : false;
+
+        function clickStartButton() {
+            // when start button is clicked, it will turn the top left circle black as long as the click counter is greater than
+            // 4. However, everytime one of the circles is clicked, and the function decreases the counter, So when it reaches 0 
+            // when the bottom right black button is clicked, this code won't execute, because the counter os 0, so the clicking the
+            // buttons won't start agaub
+            if(clickCounter > 0){
+                topLeftCircle.setAttribute('src', setBlackDot )
+                topLeftCircle.setAttribute('class', 'icons-hover-over')
+                middleStartButton.setAttribute('src', '')
+                clickCounter--; // sets counter to 3
+
+                if(isSafari || MOBILE_SAFARI){
+                    middleStartButton.setAttribute('style', 'content: ""')
+                }
+            }
+        }
+
+        function turnCircleTopLeftWhite(){
+            topLeftCircle.setAttribute('src', setWhiteDot);
+            topRightCircle.setAttribute('src', setBlackDot);
+            topRightCircle.setAttribute('class', 'icons-hover-over')
+            clickCounter--; // sets counter to 2
+        }
+
+        function turnCircleTopRightWhite(){
+            topRightCircle.setAttribute('src', setWhiteDot);
+            bottomLeftCircle.setAttribute('src', setBlackDot);
+            bottomLeftCircle.setAttribute('class', 'icons-hover-over')
+            clickCounter--; // sets counter to 1
+
+        }
+
+        function turnBottomLeftWhite() {
+            bottomLeftCircle.setAttribute('src', setWhiteDot);
+            bottomRightCircle.setAttribute('src', setBlackDot);
+            bottomRightCircle.setAttribute('class', 'icons-hover-over')
+            clickCounter--; // sets counter to 0
+
+        }
+
+
+        function turnBottomRightWhite() {
+
+            setTimeout(function() { topLeftCircle.setAttribute('class', 'icons-disappearing'); }, 1000) 
+            setTimeout(function() { topRightCircle.setAttribute('class', 'icons-disappearing'); }, 2000)
+            setTimeout(function() { bottomLeftCircle.setAttribute('class', 'icons-disappearing'); }, 3000) 
+            setTimeout(function() { bottomRightCircle.setAttribute('class', 'icons-disappearing'); }, 4000) 
+
+            if(MOBILE_SAFARI){
+                bottomRightCircle.setAttribute('src', setWhiteDot);
+                middleStartButton.setAttribute('src', './img/test-completed-confirmation-2.jpg')
+                middleStartButton.removeAttribute('style')  
+
+            } else {
+
+                if(isSafari) {
+                    middleStartButton.removeAttribute('style') ; 
+                }
+            bottomRightCircle.setAttribute('src', setWhiteDot);
+            middleStartButton.setAttribute('src', './img/right-click-image-2.jpg')
+            // saying that when this image appears and it is right click call the function() which is calling the function changeIMage()
+
+            middleStartButton.addEventListener('contextmenu', function() {
+                changeImage();
+            } )
+        }
+            
+            middleStartButton.setAttribute('class', 'icons-hover-over')
+
+        }
+
+
+        // function that changes the middle image and disbales right click
+        function changeImage(){
+            middleStartButton.setAttribute('src', './img/test-completed-confirmation-2.jpg');
+            document.addEventListener('contextmenu', event => event.preventDefault());
+
+        }
+
+    </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bowser@2.9.0/es5.js"></script>
+<script>
+window.addEventListener("load", function() {
+    // PARSE USER AGENT
+    var result = bowser.getParser(navigator.userAgent).getResult();
+    
+    // BROWSER INFO
+    console.log(result.browser.name);
+    console.log(result.browser.version);
+    console.log(result.engine);
+    
+    // OPERATING SYSTEM
+    console.log(result.os.name);
+    console.log(result.os.version);
+    console.log(result.os.versionName);
+
+// PLATFORM
+console.log(result.platform.type);
+});
+
+</script>
+
+    <!-- CSS -->
+    <style>
+        /* font imported from google fonts */
+        body {
+            font-family: 'Questrial', sans-serif;
+            /* this is the base font size. This means when ever I use the em for font size, then it will adjust to 
+            this size */
+            font-size: 30px;
+
+        }
+
+        .container-fluid {
+            height: 100vh;
+
+        }
+
+        .top-banner-text {
+            /* the font size for the font banner is 3em. That means it is 3 times bigger than the parent font, which I set in the body
+            class above as 30px. So, this is technically 90px */
+            font-size: 3em;
+            background-color: rgb(24, 24, 24);
+            color: white;
+            letter-spacing: 0.3em;
+        }
+
+
+        /* aligining the contents to the center ion each grid box */
+        .center-grid-contents {
+            text-align: center;
+        }
+        
+
+        .center-the-image-button {
+            text-align: center;
+     
+        }
+
+        /* making the row height 33.3 percent of the viewport. I chose this number because there are 3 rows. */
+        .row-height {
+            height: 35%;
+        }
+
+        /* changing the height depending on the viewport */
+        @media (min-width: 320px) and (max-width: 767px) {
+        /* completely removing the image when viewports hits between these sizes */
+        .mouse-image {
+            display: none;;
+        }
+        .row-height {
+            height: 25%;
+        }
+
+    }
+
+    /* hover effects when putting mouse over */
+    .icons-hover-over {
+
+    border: none;
+    color: white;
+    padding: 0px 0px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.4s;
+  }
+
+    .icons-disappearing {
+    border: none;
+    color: white;
+    padding: 0px 0px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.0;
+    transition: 0.3s;
+    }
+  
+    .icons-hover-over:hover {opacity: 1}
+    
+
+    .animated {
+        -webkit-animation-duration: 7s;
+        -webkit-animation-name: fadeIn;
+
+         }
+         
+         @-webkit-keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+         }
+
+
+
+         
+
+         
+
+
+
+
+
+
+
+
+
+    </style>
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
